@@ -3,19 +3,23 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - hitBox
+  - Undefined
+  - Enemy
+  - Door
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - EnemyObstacles
+  - PlayerObstacles
+  - Obstacles
+  - Enemies
+  - Player
   - 
   - 
   - 
