@@ -9,6 +9,7 @@ public class EnemyAI : MonoBehaviour
     public float speed = 3f;
     private SpriteRenderer spriteRenderer;
     private EnemyAttack enemyAttack;
+    private GameObject Player;
 
     // Start is called before the first frame update
     void Start()
@@ -17,16 +18,18 @@ public class EnemyAI : MonoBehaviour
         enemyTransform = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         enemyAttack = GetComponent<EnemyAttack>();
+        Player = GameObject.FindWithTag("Player");
+        playerTransform = Player.transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if(enemyAttack.playerInRange){
+        if(enemyAttack.playerInRange){
 
-       // } else {
-           // ChasePlayer();
-      //  }
+        } else {
+           ChasePlayer();
+        }
     }
 
     private void ChasePlayer()

@@ -6,7 +6,7 @@ public class EnemyAttack : MonoBehaviour
  {
  
      public float enemyCooldown = 1;
-     public float damage = 1;
+     public int damage = 1;
  
      public bool playerInRange = false;
      private bool canAttack = true;
@@ -22,7 +22,11 @@ public class EnemyAttack : MonoBehaviour
          if (playerInRange && canAttack)
          {
              animator.SetBool("canAttack", true);
-             //GameObject.Find("Fall_0").GetComponent<PC>().currentHealth -= damage;
+            /*
+             GameObject.FindWithTag("Player").GetComponent<PlayerController>().hp -= damage;
+            */
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().PlayerTakeDamage(damage);
+
              StartCoroutine(AttackCooldown());
          }
      }
