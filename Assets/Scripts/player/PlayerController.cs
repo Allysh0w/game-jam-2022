@@ -70,6 +70,8 @@ public class PlayerController : MonoBehaviour
         {
             isDead = true;
             playerAnimator.SetBool("isDead", isDead);
+            Destroy(gameObject, 0.8f);
+            Time.timeScale = 0f;
             return;
         }
 
@@ -215,7 +217,7 @@ public class PlayerController : MonoBehaviour
         {
             damage = damage / 2;
         }
-        isTakingDamage = true;
+        //isTakingDamage = true;
         hp = hp - damage;
     }
 

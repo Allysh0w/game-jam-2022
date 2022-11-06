@@ -9,16 +9,23 @@ public class HitBox : MonoBehaviour
     {
         
         GameObject hitGameObject = collision.gameObject;
-        Debug.Log("DEAL DAMAGE!");
-        Debug.Log(hitGameObject.tag);
 
 
         if (hitGameObject.tag == "Enemy")
         {
-            Destroy(hitGameObject);
+            var damage = GameObject.Find("Player").GetComponent<PlayerController>().attackDamage;
+            hitGameObject.GetComponent<EnemyAI>().EnemyTakeDamage(damage);
+            hitGameObject.GetComponent<Animator>().SetTrigger("tookHit"); //tookHit
+        
+            CheckEnemyHp(hitGameObject);
         }
         
     }
 
- 
+    private void CheckEnemyHp(GameObject hitGameObject){
+        if (hitGameObject.GetComponent<EnemyAI>().enemyHP <= 0) {
+            hitGameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+             hitGameObject.GetComponent<Animator>().SetTrigger("die");
+        }
+    }
 }

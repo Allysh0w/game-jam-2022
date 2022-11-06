@@ -5,48 +5,49 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
  {
  
-     public float enemyCooldown = 1;
+     public float enemyCooldown = 10.0f;
      public int damage = 1;
  
      public bool playerInRange = false;
+     private bool doorInRange = false;
+     public bool DoorInRange => doorInRange;
      private bool canAttack = true;
      private Animator animator;
+     private Rigidbody2D rigidbody2D;
      
-
      private void Start() {
         animator = GetComponent<Animator>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
      }
  
     private void Update()
      {
-         if (playerInRange && canAttack)
-         {
-             animator.SetBool("canAttack", true);
-            /*
-             GameObject.FindWithTag("Player").GetComponent<PlayerController>().hp -= damage;
-            */
-
-            GameObject.FindWithTag("Player").GetComponent<PlayerController>().PlayerTakeDamage(damage);
-
-             StartCoroutine(AttackCooldown());
-         }
+            Attack();
+            animator.SetFloat("velocityMag",rigidbody2D.velocity.magnitude);
      }
 
      void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Player")
           {
-            
              playerInRange = true;
-         }
+             
+         } else if (collision.gameObject.tag == "Door") {
+            Debug.Log("Collision on ====>>>>");
+            doorInRange = true;
+         } 
      }
 
        void OnCollisionExit2D(Collision2D collision) {
 
         if (collision.gameObject.tag == "Player")
           {
-             animator.SetBool("canAttack", false);
-             animator.SetBool("canWalk", true);
              playerInRange = false;
+         }
+
+         if (collision.gameObject.tag == "Door")
+          {
+             animator.SetBool("velocityMag", true);
+             doorInRange = false;
          }
      }
 
@@ -57,4 +58,28 @@ public class EnemyAttack : MonoBehaviour
          yield return new WaitForSeconds(enemyCooldown);
          canAttack = true;
      }
+
+     void Attack() {
+       var enemyHP = GetComponent<EnemyAI>().enemyHP;
+        
+        if (playerInRange && canAttack && enemyHP > 0)
+         {
+            animator.SetTrigger("attack");
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().PlayerTakeDamage(damage);
+            StartCoroutine(AttackCooldown());
+         }
+
+         if (doorInRange && canAttack && enemyHP > 0){
+            animator.SetTrigger("attack");
+            GameObject.FindWithTag("Door").GetComponent<DoorManager>().DoorTakeDamage(damage);
+            StartCoroutine(AttackCooldown());
+            
+         }
+        
+     }
+
+ /*     void CheckEnemyIsAlive(){
+         GameObject.FindWithTag("Player").GetComponent<PlayerController>().isDead
+     } */
+
  }
