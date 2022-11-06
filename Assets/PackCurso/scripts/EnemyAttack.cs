@@ -66,7 +66,7 @@ public class EnemyAttack : MonoBehaviour
         if (playerInRange && canAttack && enemyHP > 0)
          {
             animator.SetTrigger("attack");
-            GameObject.FindWithTag("Player").GetComponent<PlayerController>().PlayerTakeDamage(damage);
+            GameObject.FindWithTag("Player").GetComponent<PlayerMain>().PlayerTakeDamage(damage);
             StartCoroutine(AttackCooldown());
          }
 
