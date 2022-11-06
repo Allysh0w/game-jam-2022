@@ -29,18 +29,18 @@ public class MainMenu : MonoBehaviour
         if(Input.GetButtonDown("Keycode.Return") == true)
         {
             Debug.Log("Enter foi pressionado.");
-            SceneManager.LoadScene(sceneName:"GameOver");
+            SceneManager.LoadScene(sceneName:"CenaNoite");
         }
     }
     public void Start1()
     {
-        SceneManager.LoadScene(sceneName:"TEST PLAYER SCRIPTS");
+        SceneManager.LoadScene(sceneName:"CenaNoite");
     }
     public void ReturnMenu(){
 
         SceneManager.LoadScene("Menu");
     }
     public void PlayAgain(){
-        SceneManager.LoadScene("TEST PLAYER SCRIPTS");
+        SceneManager.LoadScene("CenaNoite");
     }
 }
