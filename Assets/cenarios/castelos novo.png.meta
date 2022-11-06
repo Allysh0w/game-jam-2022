@@ -5146,7 +5146,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      castelos novo_117: 510210907
+      castelos novo_114: -1226997584
+      castelos novo_238: 1818722781
       castelos novo_14: 1081204965
       castelos novo_71: -1655145003
       castelos novo_126: -435748970
@@ -5216,15 +5217,15 @@ TextureImporter:
       castelos novo_25: 526120727
       castelos novo_219: 2133840590
       castelos novo_128: 644168388
-      castelos novo_217: 1331677445
-      castelos novo_84: 1387559612
       castelos novo_212: -125747149
+      castelos novo_84: 1387559612
+      castelos novo_224: -849389193
       castelos novo_125: -814006636
       castelos novo_179: 175262306
       castelos novo_187: 1167122140
       castelos novo_156: 1204156137
       castelos novo_221: 372311291
-      castelos novo_224: -849389193
+      castelos novo_217: 1331677445
       castelos novo_158: -1950204936
       castelos novo_173: 807335498
       castelos novo_147: 447769816
@@ -5314,8 +5315,8 @@ TextureImporter:
       castelos novo_112: -1568118599
       castelos novo_226: 2131803736
       castelos novo_65: 1768233943
-      castelos novo_129: 1798074989
       castelos novo_49: -796764839
+      castelos novo_129: 1798074989
       castelos novo_111: -34217838
       castelos novo_82: 920245755
       castelos novo_74: -1503410173
@@ -5375,7 +5376,6 @@ TextureImporter:
       castelos novo_104: 1527785421
       castelos novo_96: -733184930
       castelos novo_205: 668220046
-      castelos novo_238: 1818722781
       castelos novo_134: -668603702
       castelos novo_3: -777492509
       castelos novo_222: -1950398993
@@ -5384,7 +5384,7 @@ TextureImporter:
       castelos novo_188: 1945401579
       castelos novo_69: 1808373545
       castelos novo_210: -1228689800
-      castelos novo_114: -1226997584
+      castelos novo_117: 510210907
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
