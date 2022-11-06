@@ -60,6 +60,8 @@ public class PlayerController : MonoBehaviour
         {
             isDead = true;
             playerAnimator.SetBool("isDead", isDead);
+            Destroy(gameObject, 0.8f);
+            Time.timeScale = 0f;
             return;
         }
 
@@ -191,6 +193,16 @@ public class PlayerController : MonoBehaviour
     {
         GameObject createdHitBox = Instantiate(hitBox, hand.transform.position, transform.localRotation);
         Destroy(createdHitBox, 0.25f);
+    }
+
+    public void PlayerTakeDamage(int damage)
+    {
+        if (isShieldUp)
+        {
+            damage = damage / 2;
+        }
+        //isTakingDamage = true;
+        hp = hp - damage;
     }
 
 
