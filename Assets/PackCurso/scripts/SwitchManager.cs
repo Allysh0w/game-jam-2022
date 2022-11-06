@@ -30,8 +30,8 @@ public class SwitchManager : MonoBehaviour
     IEnumerator LevelFinished() {
         
         animator.SetTrigger("altarBlink");
-        yield return new WaitForSeconds(5.0f);
         gameobject.SetActive(true);
+        yield return new WaitForSeconds(5.0f);
         while(!Input.GetKeyDown(KeyCode.Return)){
             yield return null;
         }
