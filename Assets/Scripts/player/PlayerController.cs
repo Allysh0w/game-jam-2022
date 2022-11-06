@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
         // PLAYER MOVEMENT HANDLER
         if (isTakingDamage || isShieldUp)
         {
-            horizontalAxis = 0;
+            //horizontalAxis = 0;
         }
 
         if (isAttacking)
@@ -268,17 +268,6 @@ public class PlayerController : MonoBehaviour
         GameObject createdHitBox = Instantiate(hitBox, hand.transform.position, transform.localRotation);
         Destroy(createdHitBox, 0.25f);
     }
-
-    public void PlayerTakeDamage(int damage)
-    {
-        if (isShieldUp)
-        {
-            damage = damage / 2;
-        }
-        //isTakingDamage = true;
-        hp = hp - damage;
-    }
-
 
     public void StopTakingDamage()
     {

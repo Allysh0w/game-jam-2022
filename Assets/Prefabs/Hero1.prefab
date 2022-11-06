@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 82760970803530969}
   - component: {fileID: 82760970803530974}
   - component: {fileID: 82760970803531045}
-  - component: {fileID: 82760970803530970}
   - component: {fileID: 82760970803530971}
-  m_Layer: 0
+  - component: {fileID: 1197841778899285507}
+  m_Layer: 6
   m_Name: Hero1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.21875, y: 2.34375}
+  m_Size: {x: 2.02, y: 1.65}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -129,22 +129,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &82760970803530970
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 82760970803530975}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.43588972, y: -0.3608011}
-  m_Size: {x: 0.7027092, y: 1.1542716}
-  m_Direction: 0
 --- !u!114 &82760970803530971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,3 +144,19 @@ MonoBehaviour:
   hp: 300
   damage: 15
   isTakingDamage: 0
+--- !u!70 &1197841778899285507
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 82760970803530975}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.22179091, y: -0.12097669}
+  m_Size: {x: 0.8925898, y: 1.3361716}
+  m_Direction: 0
