@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private bool isDead = false;
     public bool isShieldUp = false;
     public bool isTakingDamage = false;
+    public GameController gamecontroller;
 
     private int lightAttackIndex = 0;
     private float lightAttackCooldown = 1f;
@@ -61,7 +63,7 @@ public class PlayerController : MonoBehaviour
             isDead = true;
             playerAnimator.SetBool("isDead", isDead);
             Destroy(gameObject, 0.8f);
-            Time.timeScale = 0f;
+            SceneManager.LoadScene(sceneName:"GameOver");
             return;
         }
 
