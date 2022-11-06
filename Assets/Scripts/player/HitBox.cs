@@ -13,7 +13,7 @@ public class HitBox : MonoBehaviour
 
         if (hitGameObject.tag == "Enemy")
         {
-            var damage = GameObject.Find("Player").GetComponent<PlayerController>().attackDamage;
+            var damage = GameObject.Find("Player").GetComponent<PlayerMain>().attackDamage;
             hitGameObject.GetComponent<EnemyAI>().EnemyTakeDamage(damage);
             hitGameObject.GetComponent<Animator>().SetTrigger("tookHit"); //tookHit
         
