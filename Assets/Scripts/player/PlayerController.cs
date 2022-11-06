@@ -6,32 +6,25 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int maximumHp = 100;
-    public int hp;
-    public int playerLevel = 1;
-    public int playerExperience = 0;
-    public int attackDamage = 10;
     private int speed = 2;
-    public int playerKills = 0;
-    public int nextLevelExperience = 1000;
 
     private bool isOnGround;
     private bool isLookingToLeft;
     private bool isAttacking = false;
-    private bool isTakingDamage = false;
     private bool isWalking = false;
-    private bool isShieldUp = false;
     private bool isDead = false;
+    public bool isShieldUp = false;
+    public bool isTakingDamage = false;
+
     private int lightAttackIndex = 0;
     private float lightAttackCooldown = 1f;
     private float lightAttackTimedown = 0f;
 
     private float dashForce = 2500f;
-    private float dashTime = 0.2f;
+    private float dashTimedown = 0.2f;
     private float dashCooldown = 0.75f;
     private bool isDashing = false;
     private bool canDash = true;
-    
 
     public Rigidbody2D playerRB;
     private GameObject hand;
@@ -39,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private TrailRenderer trailRender;
     [SerializeField] private GameObject hitBox;
 
+    private PlayerMain PlayerMain;
 
     // Start is called before the first frame update
     void Start()
@@ -46,8 +40,8 @@ public class PlayerController : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         hand = GameObject.Find("hand").gameObject;
         playerAnimator = GetComponent<Animator>();
-        hp = maximumHp;
         trailRender = GetComponent<TrailRenderer>();
+        PlayerMain = GetComponent<PlayerMain>();
     }
 
     // Update is called once per frame
@@ -57,16 +51,12 @@ public class PlayerController : MonoBehaviour
         float currentVelocityX = playerRB.velocity.x;
         float currentVelocityY = playerRB.velocity.y;
 
+        // Cooldowns / Timedowns
         lightAttackTimedown = Mathf.Clamp(lightAttackTimedown - Time.deltaTime, 0f, lightAttackCooldown);
+        dashTimedown = Mathf.Clamp(dashTimedown - Time.deltaTime, 0f, dashCooldown);
 
-        /*
-        Debug.Log(isAttacking);
-        Debug.Log(lightAttackIndex);
-        Debug.Log(lightAttackTimedown);
-        Debug.Log("-----------------");
-        */
-
-        if (hp <= 0)
+        // PLAYER DEATH MANAGER
+        if (PlayerMain.playerHp <= 0)
         {
             isDead = true;
             playerAnimator.SetBool("isDead", isDead);
@@ -75,7 +65,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        // PLAYER MOVEMENT
+        // PLAYER MOVEMENT HANDLER
         if (isTakingDamage || isShieldUp)
         {
             horizontalAxis = 0;
@@ -159,11 +149,6 @@ public class PlayerController : MonoBehaviour
         playerAnimator.SetBool("isShieldUp", isShieldUp);
         playerAnimator.SetBool("isDashing", isDashing);
 
-        if (playerExperience >= nextLevelExperience)
-        {
-            LevelUp();
-        }
-
     }
 
     private void Flip()
@@ -176,7 +161,6 @@ public class PlayerController : MonoBehaviour
 
     public void StopPlayerAttack ()
     {
-        Debug.Log("STOP PLAYER ATTACK");
         isAttacking = false;
 
         if (lightAttackTimedown == 0)
@@ -222,7 +206,6 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
     public void StopTakingDamage()
     {
         isTakingDamage = false;
@@ -233,27 +216,14 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
         trailRender.emitting = false;
     }
-
-    public void PlayerKilledEnemy(int experience)
-    {
-        playerKills = playerKills + 1;
-        playerExperience = playerExperience + experience;
-    }
-
-    public void LevelUp()
-    {
-        nextLevelExperience = Mathf.RoundToInt(nextLevelExperience * 1.5f);
-        attackDamage = attackDamage + 1;
-        maximumHp = maximumHp + 10;
-        hp = maximumHp;
-    }
+    
 
     private IEnumerator Dash()
     {
         float horizontalAxis = Input.GetAxisRaw("Horizontal");
 
         canDash = false;
-        trailRender.emitting = true;
+        // trailRender.emitting = true;
         isDashing = true;
         //float originalGravity = playerRB.gravityScale;
         //playerRB.gravityScale = 0;
