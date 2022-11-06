@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+
     private int speed = 2;
 
     private bool isOnGround;
@@ -32,6 +33,11 @@ public class PlayerController : MonoBehaviour
     private GameObject hand;
     private Animator playerAnimator;
     private TrailRenderer trailRender;
+    private GameObject heroSpawner;
+    public GameObject[] heroes;
+    public int currentHeroIndex = 1;
+    public bool canSummon = true;
+
     [SerializeField] private GameObject hitBox;
 
     private PlayerMain PlayerMain;
@@ -44,6 +50,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         trailRender = GetComponent<TrailRenderer>();
         PlayerMain = GetComponent<PlayerMain>();
+        heroSpawner = GameObject.Find("heroSpawner").gameObject;
     }
 
     // Update is called once per frame
@@ -68,9 +75,9 @@ public class PlayerController : MonoBehaviour
         }
 
         // PLAYER MOVEMENT HANDLER
-        if (isTakingDamage || isShieldUp)
+        if (isShieldUp)
         {
-            //horizontalAxis = 0;
+            horizontalAxis = 0;
         }
 
         if (isAttacking)
@@ -138,6 +145,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && !isShieldUp && !isAttacking && !isDashing)
         {
             LightAttack();
+        }
+
+
+        if (Input.GetButtonDown("Summon") && canSummon)
+        {
+            SpawnHero();
         }
 
         // ANIMATIONS
@@ -224,6 +237,22 @@ public class PlayerController : MonoBehaviour
         //playerRB.gravityScale = originalGravity;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
+    }
+
+    public void SetPlayerHero(int heroIndex)
+    {
+        currentHeroIndex = heroIndex;
+    }
+
+    private void SpawnHero()
+    {
+        GameObject heroToSpawn = heroes[currentHeroIndex - 1];
+        if (heroToSpawn)
+        {
+            GameObject createdHero = Instantiate(heroToSpawn, heroSpawner.transform.position, transform.localRotation);
+            createdHero.transform.localScale = transform.localScale;
+            canSummon = false;
+        }
     }
 
 }

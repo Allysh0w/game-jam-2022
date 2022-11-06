@@ -9,11 +9,14 @@ public class EnemyAttack : MonoBehaviour
      public int damage = 1;
  
      public bool playerInRange = false;
-     private bool doorInRange = false;
+    public bool heroInRange = false;
+    private bool doorInRange = false;
      public bool DoorInRange => doorInRange;
      private bool canAttack = true;
      private Animator animator;
      private Rigidbody2D rigidbody2D;
+
+    private string tagToAttack = "Player";
      
      private void Start() {
         animator = GetComponent<Animator>();
@@ -28,24 +31,32 @@ public class EnemyAttack : MonoBehaviour
 
 
      void OnCollisionEnter2D(Collision2D collision) {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == tagToAttack)
           {
              playerInRange = true;
              
          } else if (collision.gameObject.tag == "Door") {
-            Debug.Log("Collision on ====>>>>");
             doorInRange = true;
-         } 
-     }
+         }
+        else if (collision.gameObject.tag == "Hero")
+        {
+            heroInRange = true;
+        }
+    }
 
        void OnCollisionExit2D(Collision2D collision) {
 
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == tagToAttack)
           {
              playerInRange = false;
          }
 
-         if (collision.gameObject.tag == "Door")
+        if (collision.gameObject.tag == "Hero")
+        {
+            heroInRange = false;
+        }
+
+        if (collision.gameObject.tag == "Door")
           {
              animator.SetBool("velocityMag", true);
              doorInRange = false;
@@ -66,7 +77,7 @@ public class EnemyAttack : MonoBehaviour
         if (playerInRange && canAttack && enemyHP > 0)
          {
             animator.SetTrigger("attack");
-            GameObject.FindWithTag("Player").GetComponent<PlayerMain>().PlayerTakeDamage(damage);
+            GameObject.FindWithTag(tagToAttack).GetComponent<PlayerMain>().PlayerTakeDamage(damage);
             StartCoroutine(AttackCooldown());
          }
 
@@ -74,10 +85,15 @@ public class EnemyAttack : MonoBehaviour
             animator.SetTrigger("attack");
             GameObject.FindWithTag("Door").GetComponent<DoorManager>().DoorTakeDamage(damage);
             StartCoroutine(AttackCooldown());
-            
          }
-        
-     }
+
+        if (heroInRange && canAttack && enemyHP > 0)
+        {
+            animator.SetTrigger("attack");
+            GameObject.FindWithTag("Hero").GetComponent<HeroAI>().heroTakeDamage(damage);
+            StartCoroutine(AttackCooldown());
+        }
+    }
 
  /*     void CheckEnemyIsAlive(){
          GameObject.FindWithTag("Player").GetComponent<PlayerController>().isDead
