@@ -33,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private bool canDash = true;
     
 
+
+
     public Rigidbody2D playerRB;
     private GameObject hand;
     private Animator playerAnimator;
