@@ -14,25 +14,45 @@ public class PlayerController : MonoBehaviour
     private bool isWalking = false;
     private bool isDead = false;
     public bool isShieldUp = false;
+    public bool canTakeDamage = true;
+    private bool isDashing = false;
+    private bool isDodging = false;
     public bool isTakingDamage = false;
 
     private int lightAttackIndex = 0;
     private float lightAttackCooldown = 1f;
     private float lightAttackTimedown = 0f;
 
-    private float dashForce = 2500f;
-    private float dashTimedown = 0.2f;
+    private float jumpForce = 200f;
+
+    private float doubleHorizontalTimedown = 0f;
+    private float doubleHorizontalCooldown = 0.5f;
+    private int horizontalTaps = 0;
+
+    private float dodgeForce = 75f;
+    private float dodgeCooldown = 0.75f;
+    private bool canDodge = true;
+
+    private float dashForce = 100f;
     private float dashCooldown = 0.75f;
-    private bool isDashing = false;
     private bool canDash = true;
+
+
+    public GameObject[] heroes;
+    public int currentHero = 1;
+    private bool canSpawn = true;
 
     public Rigidbody2D playerRB;
     private GameObject hand;
-    private Animator playerAnimator;
+    private GameObject heroSpawner;
+
+    public Animator playerAnimator;
     private TrailRenderer trailRender;
     [SerializeField] private GameObject hitBox;
 
     private PlayerMain PlayerMain;
+    private float originalGravity;
+
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +62,9 @@ public class PlayerController : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
         trailRender = GetComponent<TrailRenderer>();
         PlayerMain = GetComponent<PlayerMain>();
+        heroSpawner = GameObject.Find("heroSpawner").gameObject;
+        originalGravity = playerRB.gravityScale;
+        canTakeDamage = true;
     }
 
     // Update is called once per frame
@@ -51,9 +74,23 @@ public class PlayerController : MonoBehaviour
         float currentVelocityX = playerRB.velocity.x;
         float currentVelocityY = playerRB.velocity.y;
 
+        /*
+        Debug.Log("canDash -->" + canDash);
+        Debug.Log("isDashing -->" + isDashing);
+        Debug.Log("horizontalTaps -->" + horizontalTaps);
+        Debug.Log("-----------------------------------");
+        */
+        Debug.Log("isTakingDamage --> " + isTakingDamage);
+        Debug.Log("canTakeDamage --> " + canTakeDamage);
+
         // Cooldowns / Timedowns
         lightAttackTimedown = Mathf.Clamp(lightAttackTimedown - Time.deltaTime, 0f, lightAttackCooldown);
-        dashTimedown = Mathf.Clamp(dashTimedown - Time.deltaTime, 0f, dashCooldown);
+        doubleHorizontalTimedown = Mathf.Clamp(doubleHorizontalTimedown - Time.deltaTime, 0f, doubleHorizontalCooldown);
+
+        if(doubleHorizontalTimedown == 0f)
+        {
+            horizontalTaps = 0;
+        }
 
         // PLAYER DEATH MANAGER
         if (PlayerMain.playerHp <= 0)
@@ -84,7 +121,7 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        if(currentVelocityX == 0)
+        if(currentVelocityX == 0 && isOnGround)
         {
             isWalking = false;
         } else
@@ -106,19 +143,29 @@ public class PlayerController : MonoBehaviour
 
 
         // PLAYER JUMP
-        /*
+        
         if (Input.GetButtonDown("Jump") && isOnGround)
         {
             playerRB.AddForce(new Vector2(0, jumpForce));
         }
-        */
+
 
         // ----- PLAYER CONTROLLERS ----- //
-        if(Input.GetButtonDown("Dash") && isWalking && canDash && !isShieldUp)
+        // Debug.Log("doubleHorizontalTimedown -->" + doubleHorizontalTimedown);
+
+        // DASH HANDLER
+        if (Input.GetButtonDown("Horizontal"))
         {
-            StartCoroutine(Dash());
+            DashHandler();
         };
 
+        // DODGE 
+        if (Input.GetButtonDown("Dodge") && isWalking && canDodge && !isShieldUp && !isDashing && isOnGround)
+        {
+            StartCoroutine(Dodge());
+        };
+
+        // DEFENSE
         if (Input.GetButton("Defense"))
         {
             isShieldUp = true;
@@ -136,16 +183,24 @@ public class PlayerController : MonoBehaviour
             LightAttack();
         }
 
-        // ANIMATIONS
+        // SPAWN HEROES
+        if (Input.GetButtonDown("Summon") && canSpawn)
+        {
+            SpawnHero();
+        }
+
+         // ANIMATIONS
 
         playerAnimator.SetBool("isOnGround", isOnGround);
         playerAnimator.SetBool("isAttacking", isAttacking);
         playerAnimator.SetFloat("lightAttackIndex", (int)lightAttackIndex);
         playerAnimator.SetInteger("horizontalAxis", (int)horizontalAxis);
         playerAnimator.SetFloat("yVelocity", currentVelocityY);
-        playerAnimator.SetBool("isTakingDamage", isTakingDamage);
         playerAnimator.SetBool("isShieldUp", isShieldUp);
         playerAnimator.SetBool("isDashing", isDashing);
+        playerAnimator.SetBool("isDodging", isDodging);
+        playerAnimator.SetBool("isTakingDamage", isTakingDamage);
+
 
     }
 
@@ -187,12 +242,30 @@ public class PlayerController : MonoBehaviour
         
     }
 
+
+    private void  DashHandler ()
+    {
+
+        if (doubleHorizontalTimedown > 0f && horizontalTaps != 0)
+        {
+            if (canDash && !isShieldUp)
+            {
+                horizontalTaps = 0;
+                StartCoroutine(Dash());
+            }
+        }
+        else
+        {
+            doubleHorizontalTimedown = doubleHorizontalCooldown;
+            horizontalTaps += 1;
+        }
+
+    }
     public void CreateHitBox()
     {
         GameObject createdHitBox = Instantiate(hitBox, hand.transform.position, transform.localRotation);
         Destroy(createdHitBox, 0.25f);
     }
-
 
     public void StopTakingDamage()
     {
@@ -204,23 +277,59 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
         trailRender.emitting = false;
     }
-    
+
+    public void StopDodge()
+    {
+        isDodging = false;
+    }
+
 
     private IEnumerator Dash()
     {
+        Debug.Log("!!!!! DASH !!!!!!");
         float horizontalAxis = Input.GetAxisRaw("Horizontal");
 
         canDash = false;
-        // trailRender.emitting = true;
+        trailRender.emitting = true;
         isDashing = true;
-        //float originalGravity = playerRB.gravityScale;
-        //playerRB.gravityScale = 0;
-        // playerRB.velocity = new Vector2(dashForce * transform.localScale.x, 0f);
+        playerRB.gravityScale = 0;
+         playerRB.velocity = new Vector2(dashForce * transform.localScale.x, 0f);
         playerRB.AddForce(new Vector2(dashForce * horizontalAxis, 0f));
+        yield return new WaitForSeconds(0.25f);
+        playerRB.gravityScale = originalGravity;
+        StopDashing();
 
-        //playerRB.gravityScale = originalGravity;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
 
+    private IEnumerator Dodge()
+    {
+        float horizontalAxis = Input.GetAxisRaw("Horizontal");
+
+        canDodge = false;
+        isDodging = true;
+        playerRB.velocity = new Vector2(dodgeForce * transform.localScale.x, 0f);
+        playerRB.AddForce(new Vector2(dodgeForce * horizontalAxis, 0f));
+
+        yield return new WaitForSeconds(dodgeCooldown);
+        canDodge = true;
+    }
+
+
+    public void SetPlayerHero(int heroIndex)
+    {
+        currentHero = heroIndex;
+    }
+
+
+    private void SpawnHero ()
+    {
+        GameObject heroToSpawn = heroes[currentHero - 1];
+        if (heroToSpawn)
+        {
+            Instantiate(heroToSpawn, heroSpawner.transform.position, transform.localRotation);
+            canSpawn = false;
+        }
+    }
 }

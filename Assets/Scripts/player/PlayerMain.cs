@@ -14,6 +14,7 @@ public class PlayerMain : MonoBehaviour
     public int playerKills = 0;
     public int nextLevelExperience = 1000;
 
+
     private PlayerController playerController;
 
     // Start is called before the first frame update
@@ -47,13 +48,22 @@ public class PlayerMain : MonoBehaviour
         playerHp = maximumHp;
     }
 
-    public void PlayerTakeDamage(int damage)
+    public IEnumerator PlayerTakeDamage(int damage)
     {
-        if (playerController.isShieldUp)
+        if (playerController.canTakeDamage)
         {
-            damage = damage / 2;
+            if (playerController.isShieldUp)
+            {
+                damage = damage / 2;
+            }
+            playerController.isTakingDamage = true;
+            playerController.canTakeDamage = false;
+            playerHp = playerHp - damage;
+
+            yield return new WaitForSeconds(1f);
+
+            playerController.canTakeDamage = true;
         }
-        playerController.isTakingDamage = true;
-        playerHp = playerHp - damage;
+        
     }
 }
