@@ -26,18 +26,23 @@ public class PlayerMain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        /*
         if (playerExperience >= nextLevelExperience)
         {
             LevelUp();
         }
+        */
     }
+
+    /*
 
     public void PlayerKilledEnemy(int experience)
     {
         playerKills = playerKills + 1;
         playerExperience = playerExperience + experience;
     }
+
+    
 
     public void LevelUp()
     {
@@ -46,6 +51,7 @@ public class PlayerMain : MonoBehaviour
         maximumHp = maximumHp + 10;
         playerHp = maximumHp;
     }
+    */
 
     public void PlayerTakeDamage(int damage)
     {
