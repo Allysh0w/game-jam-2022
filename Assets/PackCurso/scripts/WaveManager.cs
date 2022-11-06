@@ -8,14 +8,14 @@ public class WaveManager : MonoBehaviour
     public bool canSpawn;
     public int checkLevel; 
     public int enemyCountBase;
-    private bool countCorroutine;
+    private bool countCoroutine;
     
 
     // Start is called before the first frame update
     void Start()
     {
         checkLevel = 1;
-        countCorroutine = true;
+        countCoroutine = true;
         
     }
 
@@ -48,13 +48,13 @@ public class WaveManager : MonoBehaviour
      void Spawn()
      {
         StartCoroutine(AwaitAndRespawn());
-        countCorroutine = false;
+        countCoroutine = false;
      }
 
      private IEnumerator AwaitAndRespawn()
     {
         var enemyCount = enemyCountBase * checkLevel;
-        while (countCorroutine)
+        while (countCoroutine)
         {
              for (int i = 0; i < enemyCount; i++)
             {
