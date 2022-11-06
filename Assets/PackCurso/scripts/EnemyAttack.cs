@@ -25,6 +25,7 @@ public class EnemyAttack : MonoBehaviour
             /*
              GameObject.FindWithTag("Player").GetComponent<PlayerController>().hp -= damage;
             */
+
             GameObject.FindWithTag("Player").GetComponent<PlayerController>().PlayerTakeDamage(damage);
 
              StartCoroutine(AttackCooldown());

@@ -28,12 +28,10 @@ public class PlayerController : MonoBehaviour
 
     private float dashForce = 2500f;
     private float dashTime = 0.2f;
-    private float dashCooldown = 1f;
-    // private bool isDashing = false;
+    private float dashCooldown = 0.75f;
+    private bool isDashing = false;
     private bool canDash = true;
     
-
-
 
     public Rigidbody2D playerRB;
     private GameObject hand;
@@ -126,7 +124,7 @@ public class PlayerController : MonoBehaviour
         */
 
         // ----- PLAYER CONTROLLERS ----- //
-        if(Input.GetButtonDown("Dash") && isWalking && canDash)
+        if(Input.GetButtonDown("Dash") && isWalking && canDash && !isShieldUp)
         {
             StartCoroutine(Dash());
         };
@@ -143,7 +141,7 @@ public class PlayerController : MonoBehaviour
         // PLAYER ATTACK
 
         // LIGHT ATTACK
-        if (Input.GetButtonDown("Fire1") && !isShieldUp && !isAttacking)
+        if (Input.GetButtonDown("Fire1") && !isShieldUp && !isAttacking && !isDashing)
         {
             LightAttack();
         }
@@ -157,6 +155,7 @@ public class PlayerController : MonoBehaviour
         playerAnimator.SetFloat("yVelocity", currentVelocityY);
         playerAnimator.SetBool("isTakingDamage", isTakingDamage);
         playerAnimator.SetBool("isShieldUp", isShieldUp);
+        playerAnimator.SetBool("isDashing", isDashing);
 
         if (playerExperience >= nextLevelExperience)
         {
@@ -227,6 +226,12 @@ public class PlayerController : MonoBehaviour
         isTakingDamage = false;
     }
 
+    public void StopDashing ()
+    {
+        isDashing = false;
+        trailRender.emitting = false;
+    }
+
     public void PlayerKilledEnemy(int experience)
     {
         playerKills = playerKills + 1;
@@ -247,18 +252,13 @@ public class PlayerController : MonoBehaviour
 
         canDash = false;
         trailRender.emitting = true;
-        // isDashing = true;
-        float originalGravity = playerRB.gravityScale;
-        playerRB.gravityScale = 0;
+        isDashing = true;
+        //float originalGravity = playerRB.gravityScale;
+        //playerRB.gravityScale = 0;
         // playerRB.velocity = new Vector2(dashForce * transform.localScale.x, 0f);
         playerRB.AddForce(new Vector2(dashForce * horizontalAxis, 0f));
 
-        yield return new WaitForSeconds(dashTime);
-        // isDashing = false;
-        trailRender.emitting = false;
-
-
-        playerRB.gravityScale = originalGravity;
+        //playerRB.gravityScale = originalGravity;
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }

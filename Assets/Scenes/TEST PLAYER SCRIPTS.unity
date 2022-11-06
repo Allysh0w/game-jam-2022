@@ -4379,8 +4379,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.3}
-  m_Size: {x: 0.75, y: 1.2}
+  m_Offset: {x: 0, y: -0.3795827}
+  m_Size: {x: 0.75, y: 1.011896}
   m_Direction: 0
 --- !u!96 &1819408379
 TrailRenderer:
@@ -4423,7 +4423,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1000
+  m_SortingOrder: 4
   m_Time: 0.3
   m_Parameters:
     serializedVersion: 3
