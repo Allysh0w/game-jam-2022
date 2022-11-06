@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
         // PLAYER MOVEMENT HANDLER
         if (isTakingDamage || isShieldUp)
         {
-            horizontalAxis = 0;
+            //horizontalAxis = 0;
         }
 
         if (isAttacking)

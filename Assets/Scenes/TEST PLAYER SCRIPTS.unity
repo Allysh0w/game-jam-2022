@@ -685,7 +685,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 605883513}
-  m_Layer: 10
+  m_Layer: 3
   m_Name: hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4367,7 +4367,8 @@ GameObject:
   - component: {fileID: 1819408377}
   - component: {fileID: 1819408378}
   - component: {fileID: 1819408379}
-  m_Layer: 10
+  - component: {fileID: 1819408380}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -4386,13 +4387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79869e69552f308418b54580e6d85938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maximumHp: 100
-  hp: 0
-  playerLevel: 1
-  playerExperience: 0
-  attackDamage: 10
-  playerKills: 0
-  nextLevelExperience: 1000
+  isShieldUp: 0
+  isTakingDamage: 0
   playerRB: {fileID: 0}
   hitBox: {fileID: 4564000669359128820, guid: b61e76adc35e35048b815b4fd29ed48e, type: 3}
 --- !u!212 &1819408373
@@ -4628,6 +4624,25 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 0
+--- !u!114 &1819408380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1819408371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76b328d709228f0438a3f30aca3a2326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maximumHp: 100
+  playerHp: 100
+  playerLevel: 1
+  playerExperience: 0
+  attackDamage: 10
+  playerKills: 0
+  nextLevelExperience: 1000
 --- !u!1 &1845784722
 GameObject:
   m_ObjectHideFlags: 0
