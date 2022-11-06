@@ -26,11 +26,12 @@ public class EnemyAttack : MonoBehaviour
              GameObject.FindWithTag("Player").GetComponent<PlayerController>().hp -= damage;
             */
 
-            GameObject.FindWithTag("Player").GetComponent<PlayerController>().PlayerTakeDamage(damage);
+            GameObject.FindWithTag("Player").GetComponent<PlayerMain>().PlayerTakeDamage(damage);
 
              StartCoroutine(AttackCooldown());
          }
      }
+
 
      void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag == "Player")
