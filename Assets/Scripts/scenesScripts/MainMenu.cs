@@ -35,13 +35,13 @@ public class MainMenu : MonoBehaviour
     }
     public void SetText()
     {
-        SceneManager.LoadScene(sceneName:"TEST PLAYER SCRIPTS");
+        SceneManager.LoadScene(sceneName:"CenaDia");
     }
     public void ReturnMenu(){
 
         SceneManager.LoadScene("Menu");
     }
     public void PlayAgain(){
-        SceneManager.LoadScene("TEST PLAYER SCRIPTS");
+        SceneManager.LoadScene("CenaDia");
     }
 }
