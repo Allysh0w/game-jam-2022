@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerControllerCopy : MonoBehaviour
 {
-    /*
+    
     private int speed = 2;
 
     private bool isOnGround;
@@ -75,7 +75,7 @@ public class PlayerControllerCopy : MonoBehaviour
         float currentVelocityX = playerRB.velocity.x;
         float currentVelocityY = playerRB.velocity.y;
 
-        /*
+        
         Debug.Log("canDash -->" + canDash);
         Debug.Log("isDashing -->" + isDashing);
         Debug.Log("horizontalTaps -->" + horizontalTaps);
@@ -241,7 +241,6 @@ public class PlayerControllerCopy : MonoBehaviour
 
         lightAttackTimedown = lightAttackCooldown; // RESET TIMER
 
-        
     }
 
 
@@ -335,5 +334,5 @@ public class PlayerControllerCopy : MonoBehaviour
         }
     }
 
-    */
+    
 }
