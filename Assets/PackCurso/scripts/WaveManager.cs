@@ -35,6 +35,7 @@ public class WaveManager : MonoBehaviour
             case 2: 
             if(canSpawn){
                     Spawn();
+                    canSpawn = false;
                 }
                 Debug.Log("level 2");
                 break;
