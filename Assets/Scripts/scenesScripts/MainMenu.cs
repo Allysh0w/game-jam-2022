@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public string cena;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +19,7 @@ public class MainMenu : MonoBehaviour
         
     }
 
-    void Exit()
+    public void Exit()
     {
         Application.Quit();
     }
@@ -33,7 +32,7 @@ public class MainMenu : MonoBehaviour
             SceneManager.LoadScene(sceneName:"GameOver");
         }
     }
-    public void SetText()
+    public void Start1()
     {
         SceneManager.LoadScene(sceneName:"TEST PLAYER SCRIPTS");
     }
